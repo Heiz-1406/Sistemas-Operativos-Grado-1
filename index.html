@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aventura Digital - Grado 1°</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Comic Sans MS",Arial,sans-serif;background:linear-gradient(180deg,#dff6ff,#fff7cf);color:#17324d}
+header{text-align:center;background:linear-gradient(90deg,#25a9e0,#7d5cff);color:#fff;padding:22px 12px;border-radius:0 0 28px 28px}
+header h1{font-size:clamp(28px,6vw,52px);margin:4px}header p{font-size:20px;margin:8px}.stars{font-size:26px}
+main{max-width:1000px;margin:auto;padding:15px}.card{background:#fff;border-radius:24px;padding:20px;margin:18px 0;box-shadow:0 8px 22px #3453; border:4px solid #fff}
+h2{text-align:center;color:#5a45d6;font-size:30px}.intro{text-align:center;font-size:21px}.devices{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.device{padding:18px;border-radius:20px;text-align:center;font-size:20px}.pc{background:#e2f4ff}.phone{background:#e9ffe8}.emoji{font-size:70px;display:block}
+.game{background:#f9fbff;border-radius:20px;padding:15px;margin:12px 0}.choices{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+button,.choice{font:inherit;font-weight:bold;border:0;border-radius:18px;padding:14px 20px;cursor:pointer;min-height:55px;box-shadow:0 4px 0 #0002}
+button{background:#6b55e8;color:white}.choice{background:#eaf2ff;color:#17324d}.choice.good{background:#bdf5c9}.choice.bad{background:#ffd1d1}
+.matchgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.memory{height:100px;font-size:38px;background:#7659e8;color:#fff}.memory.open,.memory.done{background:#fff4ad;color:#17324d}.memory.done{background:#bdf5c9}
+.puzzle{display:grid;grid-template-columns:repeat(2,130px);justify-content:center;gap:7px}.piece{height:120px;font-size:55px;background:#c9efff;color:#17324d}.piece.selected{outline:6px solid #ffb000}
+.join{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:650px;margin:auto}.join button{background:#f0f6ff;color:#17324d;border:3px solid #7d5cff}.join button.sel{background:#fff2a8}.join button.done{background:#bdf5c9;border-color:#38a65a}
+.feedback{text-align:center;min-height:36px;font-size:22px;font-weight:bold;margin:12px}.big{text-align:center;font-size:70px}.finish{text-align:center;background:#fff1a8}.hidden{display:none}
+@media(max-width:600px){.devices{grid-template-columns:1fr}.matchgrid{grid-template-columns:repeat(2,1fr)}.join{grid-template-columns:1fr 1fr}.puzzle{grid-template-columns:repeat(2,110px)}.piece{height:105px}}
+</style></head><body>
+<header><div class="big">🖥️ 📱</div><h1>AVENTURA DIGITAL</h1><p>Sistemas operativos del computador y del celular</p><div class="stars">⭐ Grado 1° ⭐</div></header>
+<main>
+<section class="card"><h2>👋 ¡Hola, pequeño explorador!</h2><p class="intro">Un <b>sistema operativo</b> ayuda a que el computador o el celular funcionen. Hoy aprenderemos jugando.</p>
+<div class="devices"><div class="device pc"><span class="emoji">🖥️</span><b>COMPUTADOR</b><p>Puede usar <b>Windows</b>.</p></div><div class="device phone"><span class="emoji">📱</span><b>CELULAR</b><p>Puede usar <b>Android</b> o <b>iOS</b>.</p></div></div></section>
+
+<section class="card"><h2>🎯 Juego 1: Une la pareja</h2><p class="intro">Toca primero un sistema y después el dispositivo que corresponde.</p>
+<div class="join" id="join">
+<div><button data-k="win" data-side="a">🪟 Windows</button><button data-k="and" data-side="a">🤖 Android</button><button data-k="ios" data-side="a">🍎 iOS</button></div>
+<div><button data-k="and" data-side="b">📱 Celular Android</button><button data-k="win" data-side="b">🖥️ Computador</button><button data-k="ios" data-side="b">📱 iPhone</button></div></div><div id="joinf" class="feedback"></div></section>
+
+<section class="card"><h2>🧩 Juego 2: Arma el rompecabezas</h2><p class="intro">Las 4 piezas están mezcladas. Toca dos piezas para intercambiarlas hasta formar: 🖥️ 📱 🤖 🪟</p>
+<div class="puzzle" id="puzzle"></div><div id="puzf" class="feedback"></div><div style="text-align:center"><button onclick="mixPuzzle()">🔀 Mezclar otra vez</button></div></section>
+
+<section class="card"><h2>🧠 Juego 3: Encuentra la pareja</h2><p class="intro">Toca las tarjetas y encuentra dos dibujos iguales.</p><div class="matchgrid" id="memory"></div><div id="memf" class="feedback"></div></section>
+
+<section class="card"><h2>🔎 Juego 4: ¿Dónde pertenece?</h2><div id="quiz"></div><div id="quizf" class="feedback"></div></section>
+
+<section class="card"><h2>🌟 Juego 5: Detective digital</h2><p class="intro">¿Cuál de estos es un sistema operativo de celular?</p><div class="choices">
+<button class="choice" onclick="detect(this,false)">🎨 Pintura</button><button class="choice" onclick="detect(this,true)">🤖 Android</button><button class="choice" onclick="detect(this,false)">⚽ Balón</button></div><div id="detf" class="feedback"></div></section>
+
+<section class="card finish"><h2>🏆 Tu aventura</h2><div class="big">🎉⭐🎉</div><p class="intro" id="total">Completa los juegos para ganar estrellas.</p><button onclick="location.reload()">🔄 Jugar de nuevo</button></section>
+</main>
+<script>
+let stars=0,won={j:false,p:false,m:false,q:false,d:false};function win(k,msg,id){if(!won[k]){won[k]=true;stars++;}document.getElementById(id).innerHTML=msg+" ⭐";document.getElementById("total").innerHTML="Has ganado <b>"+stars+" de 5 estrellas</b>."+ (stars===5?"<br>🏆 ¡EXCELENTE! Eres un explorador digital.":"<br>¡Sigue jugando!");}
+let first=null,done=0;document.querySelectorAll("#join button").forEach(b=>b.onclick=()=>{if(b.classList.contains("done"))return;if(!first){first=b;b.classList.add("sel");return}if(first.dataset.side===b.dataset.side){first.classList.remove("sel");first=b;b.classList.add("sel");return}if(first.dataset.k===b.dataset.k){first.classList.remove("sel");first.classList.add("done");b.classList.add("done");done++;document.getElementById("joinf").innerHTML="👏 ¡Pareja correcta!";if(done===3)win("j","🎉 ¡Uniste todas las parejas!","joinf")}else{document.getElementById("joinf").innerHTML="💡 Intenta otra vez.";first.classList.remove("sel")}first=null});
+const goal=["🖥️","📱","🤖","🪟"];let arr=[],sel=null;function mixPuzzle(){arr=[...goal].sort(()=>Math.random()-.5);if(arr.join()==goal.join())arr.reverse();sel=null;renderPuzzle();document.getElementById("puzf").innerHTML=""}function renderPuzzle(){let p=document.getElementById("puzzle");p.innerHTML="";arr.forEach((x,i)=>{let b=document.createElement("button");b.className="piece"+(sel===i?" selected":"");b.innerHTML=x;b.onclick=()=>pick(i);p.appendChild(b)})}function pick(i){if(sel===null){sel=i;renderPuzzle();return} [arr[sel],arr[i]]=[arr[i],arr[sel]];sel=null;renderPuzzle();if(arr.join()==goal.join())win("p","🧩 ¡Rompecabezas armado!","puzf")}mixPuzzle();
+let icons=["🖥️","📱","🤖","🪟"];let cards=[...icons,...icons].sort(()=>Math.random()-.5),open=[],matched=0,lock=false;function renderMem(){let m=document.getElementById("memory");m.innerHTML="";cards.forEach((x,i)=>{let b=document.createElement("button");b.className="memory "+(open.includes(i)?"open ":"")+(bDone[i]?"done":"");b.innerHTML=(open.includes(i)||bDone[i])?x:"❓";b.onclick=()=>flip(i);m.appendChild(b)})}let bDone=Array(8).fill(false);function flip(i){if(lock||bDone[i]||open.includes(i))return;open.push(i);renderMem();if(open.length===2){lock=true;setTimeout(()=>{let[a,b]=open;if(cards[a]===cards[b]){bDone[a]=bDone[b]=true;matched++;document.getElementById("memf").innerHTML="👏 ¡Encontraste una pareja!";}else document.getElementById("memf").innerHTML="😊 Sigue buscando.";open=[];lock=false;renderMem();if(matched===4)win("m","🎉 ¡Encontraste todas las parejas!","memf")},650)}}renderMem();
+let qs=[["🖥️ Windows vive principalmente en...","Computador","Celular",0],["🤖 Android vive principalmente en...","Computador","Celular",1],["🍎 iOS está en...","iPhone","Televisor",0]],qi=0;function showQ(){let q=document.getElementById("quiz");if(qi>=qs.length){win("q","🌟 ¡Clasificaste correctamente!","quizf");q.innerHTML="<div class=big>👏</div>";return}let a=qs[qi];q.innerHTML="<p class=intro><b>"+a[0]+"</b></p><div class=choices>"+a.slice(1,3).map((x,i)=>"<button class=choice onclick='ans("+i+")'>"+x+"</button>").join("")+"</div>"}function ans(i){if(i===qs[qi][3]){document.getElementById("quizf").innerHTML="✅ ¡Muy bien!";qi++;setTimeout(showQ,500)}else document.getElementById("quizf").innerHTML="💡 Mira los dibujos y prueba otra vez."}showQ();
+function detect(el,ok){document.querySelectorAll("#detf~*");if(ok){el.classList.add("good");win("d","🎉 ¡Correcto! Android es un sistema operativo.","detf")}else{el.classList.add("bad");document.getElementById("detf").innerHTML="😊 Prueba con otra opción."}}
+</script></body></html>
